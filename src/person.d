@@ -1,10 +1,12 @@
 import std.stdio;
 import std.json;
+import std.conv;
 
 class Person
 {
-	string text;
-	Person[] childs;
+	private string text;
+	private Person[] childs;
+	private uint x, y;
 	
 	this(string text)
 	{
@@ -14,7 +16,7 @@ class Person
 	
 	void addChild(Person ch)
 	{
-		childs ~= [ch];
+		childs ~= ch;
 	}
 	
 	string toString()
@@ -26,13 +28,41 @@ class Person
 	{
 		string ret;
 		for (int i = 0; i < l; i++) ret ~= " ";
-		ret ~= text ~ "\n";
+		ret ~= text ~ " (" ~ to!string(x) ~ ", " ~ to!string(y) ~ ")" ~ "\n";
 		foreach (v; childs)
 		{
 			ret ~= v.print(l+1);
 		}
 		
 		return ret;
+	}
+	
+	uint calculateXY()
+	{
+		uint sum;
+		foreach(e; childs)
+		{
+			e.x = x+sum;
+			e.y = y+1;
+			sum += e.calculateXY();
+		}
+		
+		return sum ? sum : 1; 
+	}
+	
+	uint getX()
+	{
+		return x;
+	}
+	
+	uint getY()
+	{
+		return y;
+	}
+	
+	const(Person[]) getChilds()
+	{
+		return childs;
 	}
 }
 
@@ -48,6 +78,8 @@ unittest
 	a.addChild(e);
 	b.addChild(c);
 	b.addChild(d);
+	
+	a.calculateXY();
 	
 	writeln(a);	
 }
@@ -66,7 +98,7 @@ private string readFile(string path)
 	return cast(string) buf;
 }
 
-Person fromJSON(JSONValue v)
+private Person fromJSON(JSONValue v)
 {
 	Person ret = new Person(v["text"].str());
 	
@@ -91,6 +123,8 @@ unittest
 			{"text": "C", "childs": null},
 			{"text": "D"}
 		]}`));
+
+	a.calculateXY();
 	writeln(a);
 }
 
