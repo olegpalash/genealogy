@@ -32,12 +32,12 @@ class Person
 		childs ~= ch;
 	}
 	
-	string toString()
+	string toString() const
 	{
 		return print(0);
 	}
 	
-	private string print(uint l)
+	private string print(uint l) const
 	{
 		string ret;
 		for (int i = 0; i < l; i++) ret ~= " ";
@@ -63,7 +63,7 @@ class Person
 		return sum ? sum : 1; 
 	}
 	
-	uint getDepth()
+	uint getDepth() const
 	{
 		uint d = 1;
 		foreach(e; childs)
@@ -74,32 +74,32 @@ class Person
 		return d; 
 	}
 	
-	uint getX()
+	uint getX() const
 	{
 		return x;
 	}
 	
-	uint getY()
+	uint getY() const
 	{
 		return y;
 	}
 	
-	const(Person[]) getChilds()
+	const(Person[]) getChilds() const
 	{
 		return childs;
 	}
 	
-	string getName()
+	string getName() const
 	{
 		return name;
 	}
 	
-	string getMidName()
+	string getMidName() const
 	{
 		return mname;
 	}
 	
-	string getDates()
+	string getDates() const
 	{
 		return date;
 	}

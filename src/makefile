@@ -1,2 +1,2 @@
 all:
-	gdc -funittest -g person.d main.d -o ../bin/gen
+	gdc -funittest -g gensvg.d person.d main.d -o ../bin/gen
