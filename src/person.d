@@ -1,3 +1,4 @@
+import std.algorithm;
 import std.stdio;
 import std.json;
 import std.conv;
@@ -50,6 +51,17 @@ class Person
 		return sum ? sum : 1; 
 	}
 	
+	uint getDepth()
+	{
+		uint d = 1;
+		foreach(e; childs)
+		{
+			d = max(d, e.getDepth()+1);
+		}
+		
+		return d; 
+	}
+	
 	uint getX()
 	{
 		return x;
@@ -78,6 +90,10 @@ unittest
 	a.addChild(e);
 	b.addChild(c);
 	b.addChild(d);
+	
+	assert(a.getDepth() == 3);	
+	assert(b.getDepth() == 2);	
+	assert(c.getDepth() == 1);	
 	
 	a.calculateXY();
 	
