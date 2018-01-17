@@ -85,18 +85,18 @@ private void addPerson(SVG img, const(Person) p)
 	
 	y = y+100-count*20;
 	
-	img.addText(p.getName, x+150-p.getName.length*10, y, 40);
+	img.addText(p.getName, x+50, y, 40);
 	y+=40;
 		
 	if (p.getMidName.length != 0)
 	{
-		img.addText(p.getMidName, x+150-p.getMidName.length*10, y, 40);
+		img.addText(p.getMidName, x+50, y, 40);
 		y+=40;
 	}
 	
 	if (p.getDates.length != 0)
 	{
-		img.addText(p.getDates, x+150-p.getDates.length*10, y, 40);
+		img.addText(p.getDates, x+50, y, 40);
 	}
 	
 	foreach(c; p.getChilds)
