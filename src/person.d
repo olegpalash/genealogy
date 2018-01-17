@@ -88,6 +88,21 @@ class Person
 	{
 		return childs;
 	}
+	
+	string getName()
+	{
+		return name;
+	}
+	
+	string getMidName()
+	{
+		return mname;
+	}
+	
+	string getDates()
+	{
+		return date;
+	}
 }
 
 unittest
