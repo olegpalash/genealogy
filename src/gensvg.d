@@ -17,13 +17,13 @@ class SVG
 	
 	void addLine(uint x1, uint y1, uint x2, uint y2)
 	{
-		string tag = format(`<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="rgb(0,0,0)"/>`, x1, y1, x2, y2);
+		string tag = format(`<line x1="%s" y1="%s" x2="%s" y2="%s" stroke="rgb(0,0,0)" stroke-width="2"/>`, x1, y1, x2, y2);
 		elements ~= tag;					
 	}
 	
 	void addRect(uint x, uint y, uint w, uint h)
 	{
-		string tag = format(`<rect x="%s" y="%s" width="%s" height="%s" fill="none" stroke="rgb(0,0,0)"/>`, x, y, w, h);
+		string tag = format(`<rect x="%s" y="%s" width="%s" height="%s" fill="none" stroke="rgb(0,0,0)" stroke-width="2"/>`, x, y, w, h);
 		elements ~= tag;					
 	}
 	
@@ -61,8 +61,8 @@ unittest
 
 string genSVG(Person p)
 {
-	uint width = p.calculateXY()*400-100;
-	uint height = p.getDepth()*300-100;
+	uint width = p.calculateXY()*400+100;
+	uint height = p.getDepth()*300+100;
 	
 	SVG img = new SVG(width, height);
 	
@@ -73,8 +73,8 @@ string genSVG(Person p)
 
 private void addPerson(SVG img, const(Person) p)
 {
-	uint x = p.getX*400;
-	uint y = p.getY*300;
+	uint x = p.getX*400+100;
+	uint y = p.getY*300+100;
 	
 	img.addRect(x, y, 300, 200);
 	
@@ -83,7 +83,7 @@ private void addPerson(SVG img, const(Person) p)
 	if (p.getMidName.length != 0) count++;
 	if (p.getDates.length != 0) count++;
 	
-	y = y+100-count*20;
+	y = y+100-count*20+20;
 	
 	img.addText(p.getName, x+50, y, 40);
 	y+=40;
@@ -99,8 +99,19 @@ private void addPerson(SVG img, const(Person) p)
 		img.addText(p.getDates, x+50, y, 40);
 	}
 	
-	foreach(c; p.getChilds)
+	if (p.getChilds.length != 0)
 	{
-		addPerson(img, c);
+		uint length = (p.getChilds.length-1)*400;
+		y = p.getY*300+100;
+		
+		img.addLine(x+150, y+200, x+150, y+250);
+		
+		if (length > 0) img.addLine(x+150, y+250, x+150+length, y+250);
+		
+		foreach(c; p.getChilds)
+		{
+			img.addLine(c.getX*400+250, c.getY*300+50, c.getX*400+250, c.getY*300+100);
+			addPerson(img, c);
+		}
 	}
 }
