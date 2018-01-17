@@ -5,13 +5,25 @@ import std.conv;
 
 class Person
 {
-	private string text;
+	private string name;
+	private string mname;
+	private string date;
 	private Person[] childs;
 	private uint x, y;
 	
-	this(string text)
+	this(string name, string mname, string date)
 	{
-		this.text = text;
+		this.name = name;
+		this.mname = mname;
+		this.date = date;
+		childs = [];
+	}
+	
+	this(string name)
+	{
+		this.name = name;
+		this.mname = "";
+		this.date = "";
 		childs = [];
 	}
 	
@@ -29,7 +41,7 @@ class Person
 	{
 		string ret;
 		for (int i = 0; i < l; i++) ret ~= " ";
-		ret ~= text ~ " (" ~ to!string(x) ~ ", " ~ to!string(y) ~ ")" ~ "\n";
+		ret ~= name ~ " " ~ mname ~ " (" ~ to!string(x) ~ ", " ~ to!string(y) ~ ")" ~ "\n";
 		foreach (v; childs)
 		{
 			ret ~= v.print(l+1);
@@ -116,7 +128,14 @@ private string readFile(string path)
 
 private Person fromJSON(JSONValue v)
 {
-	Person ret = new Person(v["text"].str());
+	string name = v["name"].str();
+	string mname = "";
+	string date = "";
+	
+	if ("mname" in v.object()) mname = v["mname"].str();
+	if ("date" in v.object()) date = v["date"].str();
+	
+	Person ret = new Person(name, mname, date);
 	
 	if ("childs" in v.object() && 
 		v["childs"].type != JSON_TYPE.NULL)
@@ -134,10 +153,10 @@ private Person fromJSON(JSONValue v)
 unittest
 {
 	auto a = fromJSON(parseJSON(
-		`{"text": "A", "childs": [
-			{"text": "B", "childs": []},
-			{"text": "C", "childs": null},
-			{"text": "D"}
+		`{"name": "A", "childs": [
+			{"name": "B", "childs": []},
+			{"name": "C", "childs": null},
+			{"name": "D"}
 		]}`));
 
 	a.calculateXY();
