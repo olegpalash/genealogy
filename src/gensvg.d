@@ -101,7 +101,8 @@ private void addPerson(SVG img, const(Person) p)
 	
 	if (p.getChilds.length != 0)
 	{
-		uint length = (p.getChilds.length-1)*400;
+		uint length = (p.getChilds[$ - 1].getX - p.getX)*400;
+				
 		y = p.getY*300+100;
 		
 		img.addLine(x+150, y+200, x+150, y+250);
