@@ -32,7 +32,7 @@ class Person
 		childs ~= ch;
 	}
 	
-	string toString() const
+	override string toString() const
 	{
 		return print(0);
 	}

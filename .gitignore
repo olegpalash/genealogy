@@ -1,0 +1,16 @@
+.dub
+docs.json
+__dummy.html
+docs/
+genealogy.so
+genealogy.dylib
+genealogy.dll
+genealogy.a
+genealogy.lib
+genealogy-test-*
+*.exe
+*.o
+*.obj
+*.lst
+*.svg
+genealogy
